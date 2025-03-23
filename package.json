@@ -1,5 +1,5 @@
 {
-  "name": "aspect-ratio-app",
+  "name": "image-aspect-analyzer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
