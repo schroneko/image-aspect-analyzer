@@ -1,18 +1,19 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import './App.css';
 import DropZone from './components/DropZone';
 import ImageResult from './components/ImageResult';
 import Loader from './components/Loader';
 import { calculateGCD, getCommonName } from './utils/aspectRatio';
 import { ERRORS, UI_TEXT } from './constants/messages';
+import { ImageInfoType } from './types';
 
-function App() {
-  const [imageInfo, setImageInfo] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+const App: React.FC = () => {
+  const [imageInfo, setImageInfo] = useState<ImageInfoType | null>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
-  const processImage = useCallback((file) => {
+  const processImage = useCallback((file: File) => {
     if (!file.type.match('image.*')) {
       setError(ERRORS.NOT_IMAGE);
       return;
@@ -22,7 +23,7 @@ function App() {
     setError('');
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = (e: ProgressEvent<FileReader>) => {
       const img = new Image();
       img.onload = () => {
         const width = img.width;
@@ -33,7 +34,7 @@ function App() {
         const commonName = getCommonName(rawRatio);
 
         setImageInfo({
-          src: e.target.result,
+          src: e.target?.result as string,
           width,
           height,
           aspectRatio,
@@ -48,7 +49,7 @@ function App() {
         setIsLoading(false);
       };
 
-      img.src = e.target.result;
+      img.src = e.target?.result as string;
     };
 
     reader.onerror = () => {
@@ -84,6 +85,6 @@ function App() {
       </footer>
     </div>
   );
-}
+};
 
 export default App;

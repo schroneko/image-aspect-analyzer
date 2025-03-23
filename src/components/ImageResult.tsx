@@ -1,6 +1,12 @@
+import React from 'react';
 import { UI_TEXT } from '../constants/messages';
+import { ImageInfoType } from '../types';
 
-function ImageResult({ imageInfo }) {
+interface ImageResultProps {
+  imageInfo: ImageInfoType | null;
+}
+
+const ImageResult: React.FC<ImageResultProps> = ({ imageInfo }) => {
   if (!imageInfo) return null;
   
   return (
@@ -31,6 +37,6 @@ function ImageResult({ imageInfo }) {
       </table>
     </div>
   );
-}
+};
 
 export default ImageResult;

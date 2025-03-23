@@ -1,12 +1,13 @@
+import React from 'react';
 import { UI_TEXT } from '../constants/messages';
 
-function Loader() {
+const Loader: React.FC = () => {
   return (
     <div className="loading">
       <div className="loader"></div>
       <p>{UI_TEXT.LOADING}</p>
     </div>
   );
-}
+};
 
 export default Loader;

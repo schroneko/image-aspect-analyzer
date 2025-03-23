@@ -1,27 +1,33 @@
-import { useCallback, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { UI_TEXT } from '../constants/messages';
 
-function DropZone({ onImageSelected, isDragging, setIsDragging }) {
-  const fileInputRef = useRef(null);
+interface DropZoneProps {
+  onImageSelected: (file: File) => void;
+  isDragging: boolean;
+  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-  const handleDragEnter = useCallback((e) => {
+const DropZone: React.FC<DropZoneProps> = ({ onImageSelected, isDragging, setIsDragging }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(true);
   }, [setIsDragging]);
 
-  const handleDragLeave = useCallback((e) => {
+  const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
   }, [setIsDragging]);
 
-  const handleDragOver = useCallback((e) => {
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
   }, []);
 
-  const handleDrop = useCallback((e) => {
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
@@ -32,7 +38,7 @@ function DropZone({ onImageSelected, isDragging, setIsDragging }) {
     }
   }, [onImageSelected, setIsDragging]);
 
-  const handleFileSelect = useCallback((e) => {
+  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       onImageSelected(files[0]);
@@ -41,7 +47,7 @@ function DropZone({ onImageSelected, isDragging, setIsDragging }) {
 
   const handleClick = useCallback(() => {
     fileInputRef.current?.click();
-  }, [fileInputRef]);
+  }, []);
 
   return (
     <div className="upload-container">
@@ -64,6 +70,6 @@ function DropZone({ onImageSelected, isDragging, setIsDragging }) {
       </div>
     </div>
   );
-}
+};
 
 export default DropZone;
